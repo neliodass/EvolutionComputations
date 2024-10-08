@@ -57,3 +57,13 @@ class Population:
                     chosen_chromosomes.append(c)
                     break
         return chosen_chromosomes
+    def select_tournament(self,tournament_size = 3):
+        idx_array = list(range(len(self.chromosomes)))
+        random.shuffle(idx_array)
+        idx_chunks = [idx_array[i:i+tournament_size] for i in range(0,len(idx_array),tournament_size)]
+        chunks = [[self.chromosomes[idx] for idx in idx_chunk] for idx_chunk in idx_chunks] 
+        chosen_chromosomes =[]
+        for chunk in chunks:
+           chosen = sorted(chunk,key = lambda c: c.fitness,reverse=config.maximize)[0]
+           chosen_chromosomes.append(chosen)
+        return chosen_chromosomes
