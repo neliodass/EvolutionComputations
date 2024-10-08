@@ -9,7 +9,7 @@ class Population:
         self.min_value = config.min_value
         self.max_value = config.max_value
         self.roulette_wheel = None
-        self.chromosomes = [Chromosome(self.num_variables,self.bits_per_variable,min_value=self.min_value,max_value=self.max_value) for _ in range(self.population_size)]
+        self.chromosomes = [Chromosome() for _ in range(self.population_size)]
     def calculate_fitness(self,chromosome:Chromosome,fitness_function):
         decoded_variables = chromosome.decode()
         fitness_value = fitness_function(*decoded_variables)
@@ -21,49 +21,4 @@ class Population:
         """
         for chromosome in self.chromosomes:
             chromosome.fitness = self.calculate_fitness(chromosome,fitness_function)
-
-    def select_best(self,percent_to_select):
-        """
-        :param percent_to_select - procent najlepszych osobnikow 
-        :return array of best percentage of entities
-        """
-        num_to_select = int(percent_to_select/100*self.population_size)
-        return sorted(self.chromosomes,key = lambda c: c.fitness, reverse=config.maximize )[:num_to_select]
     
-    def prepare_roulette_wheel(self):
-        print(config.maximize)
-        if config.maximize:
-            wheel_sum = sum([c.fitness for c in self.chromosomes])
-            probabilities = [c.fitness/wheel_sum for c in self.chromosomes]
-        else:
-            adjusted_fitness = [1/c.fitness if c.fitness!=0 else 1e-6 for c in self.chromosomes]
-            wheel_sum = sum(adjusted_fitness)
-            probabilities = [af/wheel_sum for af in adjusted_fitness]
-        cumulative_sum = 0
-        wheel_cumulative = []
-        for p in probabilities:
-            cumulative_sum+=p
-            wheel_cumulative.append(cumulative_sum)
-        return wheel_cumulative
-
-    def select_roulette_wheel(self,percent_to_select):
-        num_to_select = int(percent_to_select/100*self.population_size)
-        wheel_cumulative = self.prepare_roulette_wheel()
-        chosen_chromosomes = []
-        for _ in range(num_to_select):
-            r = random.random()
-            for idx,c in enumerate(self.chromosomes):
-                if r<= wheel_cumulative[idx]:
-                    chosen_chromosomes.append(c)
-                    break
-        return chosen_chromosomes
-    def select_tournament(self,tournament_size = 3):
-        idx_array = list(range(len(self.chromosomes)))
-        random.shuffle(idx_array)
-        idx_chunks = [idx_array[i:i+tournament_size] for i in range(0,len(idx_array),tournament_size)]
-        chunks = [[self.chromosomes[idx] for idx in idx_chunk] for idx_chunk in idx_chunks] 
-        chosen_chromosomes =[]
-        for chunk in chunks:
-           chosen = sorted(chunk,key = lambda c: c.fitness,reverse=config.maximize)[0]
-           chosen_chromosomes.append(chosen)
-        return chosen_chromosomes

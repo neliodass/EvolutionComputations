@@ -1,7 +1,7 @@
 import numpy as np
-
+import genetic_algorithm.config as config
 class Chromosome:
-    def __init__(self,num_variables,bits_per_variable = 10,precision = 0.01,min_value = -5, max_value = 5) -> None:
+    def __init__(self,genes = None) -> None:
         """
         :param num_variables - ilosc zmiennych w chromosomie
         :param bits_per_variable - ilosc bitow reprezentujacych jedna zmienna
@@ -9,12 +9,13 @@ class Chromosome:
         :param min_value - minimalna wartość przedziału wartości genu
         :param max_value - maksymalna wartość przedziału wartości genu
         """
-        self.num_variables = num_variables
-        self.bits_per_variable = bits_per_variable
-        self.precision = precision
-        self.min_value = min_value
-        self.max_value = max_value
-        self.genes = self.random_genes()
+        self.num_variables = config.num_variables
+        self.bits_per_variable = config.bits_per_variable
+        self.min_value = config.min_value
+        self.max_value = config.max_value
+        if genes is None:
+            self.genes = self.random_genes()
+        else: self.genes = genes
         self.fitness = None
     
     def random_genes(self):
