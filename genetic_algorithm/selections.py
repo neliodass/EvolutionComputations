@@ -19,7 +19,6 @@ def select_tournament(population,tournament_size = 3):
            chosen_chromosomes.append(chosen)
         return chosen_chromosomes
 def prepare_roulette_wheel(population):
-    print(config.maximize)
     if config.maximize:
         wheel_sum = sum([c.fitness for c in population.chromosomes])
         probabilities = [c.fitness/wheel_sum for c in population.chromosomes]
