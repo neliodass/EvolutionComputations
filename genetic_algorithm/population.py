@@ -3,6 +3,7 @@ import genetic_algorithm.config as config
 from genetic_algorithm.chromosome import Chromosome
 class Population:
     def __init__(self):
+        random.seed()
         self.population_size = config.population_size
         self.num_variables = config.num_variables
         self.bits_per_variable = config.bits_per_variable

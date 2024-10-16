@@ -4,20 +4,20 @@ from genetic_algorithm.population import Population
 import genetic_algorithm.config as config
 from genetic_algorithm.selections import *
 from genetic_algorithm.crossovers import *
+from genetic_algorithm.mutations import *
+from genetic_algorithm.inversions import *
 from genetic_algorithm.chromosome import Chromosome
-
-def function(x,y):
-    return 2*x**2-4*x+2 +y**3
+from genetic_algorithm.ga import genetic_algorithm
+def f(*args):
+    return np.sum(np.array(args)**2)
 
 #maximize ustawia czy szukamy maksimum funkcji czy minimum
-config.maximize = False
-config.population_size = 1000
-config.bits_per_variable = 20
-config.num_variables = 4
-population = Population()
 
-chromosom1 = Chromosome()
-chromosom2 = Chromosome()
 
-multi_point_crossover(chromosom1,chromosom2,4)
-
+# pop = Population()
+# pop.evaluate_population(config.f)
+# for x in pop.chromosomes:
+#     print(x)
+# print("++++++++++++++")
+# print(select_best(pop,0.2))
+genetic_algorithm()

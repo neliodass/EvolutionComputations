@@ -1,14 +1,25 @@
 import genetic_algorithm.config as config
+from genetic_algorithm.population import Population
 import random
-def select_best(population,percent_to_select):
+def select_best(population :Population,percent_to_select :float):
     """
-    :param percent_to_select - procent najlepszych osobnikow 
-    :return array of best percentage of entities
+    Parameters:
+        :param population: populacja
+        :param percent_to_select : procent najlepszych osobnikow f.e: 50% - 0.5 
+    Returns:
+        array of best percentage of entities 
     """
-    num_to_select = int(percent_to_select/100*population.population_size)
+    num_to_select = int(percent_to_select*population.population_size)
     return sorted(population.chromosomes,key = lambda c: c.fitness, reverse=config.maximize )[:num_to_select]
 
 def select_tournament(population,tournament_size = 3):
+        """
+    Parameters:
+        population: populacja
+        :param tournament_size : rozmiar turnieju 
+    Returns:
+        array of winning entities 
+    """
         idx_array = list(range(len(population.chromosomes)))
         random.shuffle(idx_array)
         idx_chunks = [idx_array[i:i+tournament_size] for i in range(0,len(idx_array),tournament_size)]
@@ -34,7 +45,14 @@ def prepare_roulette_wheel(population):
     return wheel_cumulative
 
 def select_roulette_wheel(population,percent_to_select):
-    num_to_select = int(percent_to_select/100*population.population_size)
+    """
+    Parameters:
+        :param population: populacja
+        :param percent_to_select: procent najlepszych osobnikow f.e: 50% - 0.5 
+    Returns:
+        array of best percentage of entities 
+    """
+    num_to_select = int(percent_to_select*population.population_size)
     wheel_cumulative = prepare_roulette_wheel(population)
     chosen_chromosomes = []
     for _ in range(num_to_select):

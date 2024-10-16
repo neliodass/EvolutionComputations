@@ -9,15 +9,20 @@ class Chromosome:
         :param min_value - minimalna wartość przedziału wartości genu
         :param max_value - maksymalna wartość przedziału wartości genu
         """
+        
         self.num_variables = config.num_variables
         self.bits_per_variable = config.bits_per_variable
         self.min_value = config.min_value
         self.max_value = config.max_value
+        if self.min_value>self.max_value:
+            raise ValueError("min_value must be less than max_value")
         if genes is None:
             self.genes = self.random_genes()
         else: self.genes = genes
         self.fitness = None
-    
+    def __repr__(self):
+        return f"Chromosome({self.fitness})"
+        #return f"Chromosome(genes={self.genes}, fitness={self.fitness})"
     def random_genes(self):
         """
         Tworzy losowy binarny ciąg genów dla chromosomu
