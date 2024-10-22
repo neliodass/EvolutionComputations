@@ -25,7 +25,8 @@ def f(*args):
 # print(select_best(pop,0.2))
 #genetic_algorithm()
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = GeneticAlgorithmApp()
-    window.show()
-    sys.exit(app.exec_())
+    # app = QApplication(sys.argv)
+    # window = GeneticAlgorithmApp()
+    # window.show()
+    # sys.exit(app.exec_())
+    genetic_algorithm()

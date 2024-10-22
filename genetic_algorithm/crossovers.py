@@ -37,8 +37,7 @@ def multi_point_crossover(c1,c2,points = 2):
     return Chromosome(new_genes_1),Chromosome(new_genes_2)   
 
         
-def three_point_crossover(chromosome1,chromosome2):
-    pass
+
 def uniform_crossover(chromosome1,chromosome2,chance = 0.5):
     """
     :param chance - szansa z jaką bity zostaną zamienione między chromosomami
